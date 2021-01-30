@@ -71,8 +71,11 @@ openeds:["1","2"]
  handleClose(key, keyPath) {
 		      this.$refs.menus.open(keyPath);
             },
-           async tc(){
-                const data= await this.$axios.post("/user/logout.do")
+          tc(){
+              
+                this.$axios.logout().then(res => {
+
+                })
                 this.$router.push('/')
             }
     },

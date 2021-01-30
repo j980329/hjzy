@@ -53,24 +53,18 @@ loginForm: {
     l(){
 console.log("艾呀")
     },
- async login() {
-    //  ref绑定的数值 用$refs.数值使用   async 异步  validate是element的表单校验方法
-      
-            // 不是valid 就不执行之后的
-       
-        //   上传用户名和密码到login地址中 基础地址在amin中
-          const {data:res} = await this.$axios.post('/manage/user/login.do',
-          qs.stringify(this.loginForm) )
-          console.log(res)
-        //   如果状态不等于200 则返回登录失败 并不执行以下代码，否之 这条就当不存在
-        if(res.status !=0) return this.$message.error('登录失败')
-        this.$message.success('登录成功')
-        // 登录成功后吧token保存在本地sessionStirage中
-       
-        // 跳转
-        this.$router.push('/home')
-        ;
-      },
+   login() {
+        this.$axios.login(this.ruleForm).then(res => {
+          if (res.code == 200) {
+            localStorage.setItem("admin", res.data.remember_token);
+            this.$message.success(res.msg);
+            this.$router.push("/home");
+          } else {
+            this.$message.error(res.msg);
+          }
+        });
+ 
+    }
 
     
     },
